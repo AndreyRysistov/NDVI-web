@@ -1,11 +1,14 @@
-from PIL import Image
 import numpy as np
-from flask import Flask, render_template, request, abort
+import io
+from PIL import Image
 from werkzeug.utils import secure_filename
+from flask import Flask, Response, render_template, request, abort
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+
 from preprocessing.ndvi import get_ndvi
-from preprocessing.preprocessing import angles_to_pixel, apply_gradient
-from utils.utils import get_uri
+from preprocessing.preprocessing import angles_to_pixel
 from parse.parse_angles import parse_angles
+from plot.plot_ndvi import plot_ndvi
 from configs.config import *
 
 app = Flask(__name__)
@@ -55,11 +58,11 @@ def upload_files():
         abort(400)
 
     ndvi = get_ndvi(nir_img, red_img)
-    ndvi_city = ndvi[y:y+dy,x:x+dx]
-    result_greyscale = (ndvi_city + 1.) / 2.  # greyscale
-    result = apply_gradient(result_greyscale)
-
-    return render_template('result.html', result=get_uri(Image.fromarray(result.astype("uint8"))))
+    ndvi_city = ndvi[y:y+dy, x:x+dx]
+    fig = plot_ndvi(ndvi_city)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
 
 if (__name__ == '__main__'):
