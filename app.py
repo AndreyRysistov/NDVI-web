@@ -39,11 +39,9 @@ def upload_files():
             if "B4" in filename:
                 red_img = Image.open(uploaded_file.stream)
                 red_img = np.array(red_img).astype('float64')
-                print(red_img)
             if "B3" in filename:
                 nir_img = Image.open(uploaded_file.stream)
                 nir_img = np.array(nir_img).astype('float64')
-                print(nir_img)
             if "MTL" in filename:
                 angles_dict = parse_angles(uploaded_file.stream)
                 shape = red_img.shape
