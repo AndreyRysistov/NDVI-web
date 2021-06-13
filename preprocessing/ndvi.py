@@ -1,4 +1,3 @@
-import rasterio
 import warnings
 import numpy as np
 
