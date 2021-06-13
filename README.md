@@ -1,7 +1,7 @@
-# <center> Курсовая работа 
-## <center> по дисциплине 
-## <center> "Информационные системы аэрокосмических комплексов" 
-### <center> Выполнил: ст. группы М3О-312б-18 Рысистов А.В
+# <center> Курсовая работа <center>
+## <center> по дисциплине <center>
+## <center> "Информационные системы аэрокосмических комплексов" <center>
+### <center> Выполнил: ст. группы М3О-312б-18 Рысистов А.В <center>
 
 ## Постановка задачи:
   
@@ -14,20 +14,24 @@
 Исходный код проекта представлен в репозитории на GitHub: https://github.com/AndreyRysistov/NDVI-web
 
 ### Установка инструментов
-В первую очередь установим необходимые для работы интрументы: <p>
-    1. andrey@andrey-VirtualBox:~$ sudo apt update
-    2. andrey@andrey-VirtualBox:~$ sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools
-    3. andrey@andrey-VirtualBox:~$ sudo apt install nginx
+В первую очередь установим необходимые для работы интрументы:
+
+    andrey@andrey-VirtualBox:~$ sudo apt update
+    andrey@andrey-VirtualBox:~$ sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools
+    andrey@andrey-VirtualBox:~$ sudo apt install nginx
 
 ## Установка пакетов Python:
-    1. andrey@andrey-VirtualBox:~$ pip install numpy
-    2. andrey@andrey-VirtualBox:~$ pip install opencv-python
-    3. andrey@andrey-VirtualBox:~$ pip install Flask, uwsgi
+    andrey@andrey-VirtualBox:~$ pip install numpy
+    andrey@andrey-VirtualBox:~$ pip install opencv-python
+    andrey@andrey-VirtualBox:~$ pip install Flask, uwsgi
 ## Создание приложения Flask
 Исходный код приложения представлен в репозитории проекта. Запустаемый файл - app.py <p>
 Web-приложение представляет собой веб-форму для загрузки снимков со стутника landsat-7 в формате .tif, а так же текстового описания данных снимков для расчета местоположения города. В результате на выходе мы получаем снимок местности с размеченными  по значению нормализованного индекса раститетельности (NDVI),с помощью цветовых диапазонов, объектов. <P>
 В рамках тестирования приложения использовался снимок со спутника, пролетающего над городом Сидней.
 Результат работы приложения представлен на рисунке:
+
+![] (results/result.jpg)
+
 ## Создание точки входа UWSGI и ее настройка
 Теперь создадим файл, который будет служить точкой входа в наше приложение. Это покажет серверу uWSGI, как с ним взаимодействовать.
 
@@ -45,8 +49,8 @@ andrey@andrey-VirtualBox:~$ nano ~/myproject/wsgi.py <p>
 
 Укажем сокет, чтобы запуск осуществлялся через общедоступный интерфейс, а также протокол, чтобы использовать протокол HTTP вместо двоичного протокола uwsgi. Мы будем использовать номер порта 5000, который предварительно откроем:
 
-     1. andrey@andrey-VirtualBox:~$ sudo ufw allow 5000
-     2. andrey@andrey-VirtualBox:~$ wsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
+     andrey@andrey-VirtualBox:~$ sudo ufw allow 5000
+     andrey@andrey-VirtualBox:~$ wsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
 
 ## Создание файла конфигураций uWSGI
 Создадим файл конфигураций ndvi.ini: <p>
@@ -86,9 +90,9 @@ andrey@andrey-VirtualBox:~$ sudo nano /etc/systemd/system/NDVI-web.service
     WantedBy=multi-user.target
 Теперь мы запустим созданную службу uWSGI и активируем ее запуск при загрузке системы: <p>
 
-    1. andrey@andrey-VirtualBox:~$ sudo systemctl start NDVI-web.service 
-    2. andrey@andrey-VirtualBox:~$ sudo systemctl enable NDVI-web.service 
-    3. andrey@andrey-VirtualBox:~$ sudo systemctl status NDVI-web.service 
+    andrey@andrey-VirtualBox:~$ sudo systemctl start NDVI-web.service 
+    andrey@andrey-VirtualBox:~$ sudo systemctl enable NDVI-web.service 
+    andrey@andrey-VirtualBox:~$ sudo systemctl status NDVI-web.service 
     ● NDVI-web.service - uWSGI instance to serve NDVI-web
          Loaded: loaded (/etc/systemd/system/NDVI-web.service; enabled; vendor preset: enabled)
          Active: active (running) since Sun 2021-06-13 16:42:57 EET; 11s ago
